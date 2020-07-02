@@ -7,6 +7,22 @@ Created on Wed Jul  1 19:24:06 2020
 """
 from math import *
 
+def critical_rotational_velocity(surface_tension, orifice_radius, s0, rho):
+    """RJS
+        
+    :Input:
+    - *surface_tension* (float) - surface tension (g/s^2)
+    - *orifice_radius* (float) - radius of the orifice (cm)
+    - *s0* (float) - radius of the reservoir (cm)
+    - *rho* (float) - density (g/cm^3)
+         
+    :Returns:
+    (float) - Critical rotational speed for jet ejection (tours par seconde)
+         
+    """
+    return 60*sqrt(surface_tension/(orifice_radius**2*s0*rho))
+    
+
 def sigma(surface_tension, x_position, r0, initial_velocity):
     """RJS
         

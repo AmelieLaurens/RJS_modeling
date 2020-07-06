@@ -10,10 +10,13 @@ import numpy
 import matplotlib.pyplot as plt
 
 # Predict an approximation of the final radius for various collector distances
+s0 = float(input("Enter the radius of the reservoir in m : "))
+surface_tension =float(input("Enter the surface tension in kg/s^2 : "))
 orifice_radius = float(input("Enter the radius of the orifice in m : "))
-initial_velocity = float(input("Enter the initial axial velocity in m/s : "))
-mu = float(input("Enter the viscosity of the polymer in Pa.s : "))
 rho = float(input("Enter the density of the polymer in kg/m^3 : "))
+omega_th=critical_rotational_velocity_threshold(surface_tension, orifice_radius, s0, rho)
+initial_velocity=Initial_velocity(omega_th, s0)
+mu = float(input("Enter the viscosity of the polymer in Pa.s : "))
 nu = kinematic_viscosity(mu, rho)
 omega = float(input("Enter the angular velocity in rounds per second : "))
 discretisation = int(input("Enter an int for the mesh's thinness : "))

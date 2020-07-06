@@ -12,19 +12,27 @@ import numpy
 import matplotlib.pyplot as plt
 
 # Predict an approximation of the final radius for various orifice radius
-initial_velocity = float(input("Enter the initial axial velocity in m/s : "))
-mu = float(input("Enter the viscosity of the polymer in Pa.s : "))
+s0 = float(input("Enter the radius of the reservoir in m : "))
+surface_tension =float(input("Enter the surface tension in kg/s^2 : "))
+discretisation = int(input("Enter an int for the mesh's thinness : "))
+orifice_radius = numpy.linspace(0.0001, 0.001, discretisation)
 rho = float(input("Enter the density of the polymer in kg/m^3 : "))
+omega_th=[]
+initial_velocity=[]
+for l in range(discretisation):
+    omega_th.append(critical_rotational_velocity_threshold(surface_tension, orifice_radius[l], s0, rho))
+    initial_velocity.append(Initial_velocity(omega_th[l], s0))
+omega_th=numpy.array(omega_th)
+initial_velocity=numpy.array(initial_velocity)
+mu = float(input("Enter the viscosity of the polymer in Pa.s : "))
 nu = kinematic_viscosity(mu, rho)
 Rc = float(input("Enter the radius of the collector in m : "))
 omega = float(input("Enter the angular velocity in rounds per second : "))
-discretisation = int(input("Enter an int for the mesh's thinness : "))
-orifice_radius = numpy.linspace(0.0001, 0.001, discretisation)
 
 
 final_radius = []
 for k in range(discretisation):
-    final_radius.append(final_radius_approx(orifice_radius[k], initial_velocity, nu, Rc, omega))
+    final_radius.append(final_radius_approx(orifice_radius[k], initial_velocity[k], nu, Rc, omega))
 final_radius=numpy.array(final_radius)
 
 fig = plt.figure()

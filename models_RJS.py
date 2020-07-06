@@ -7,7 +7,7 @@ Created on Wed Jul  1 19:24:06 2020
 """
 from math import *
 
-def critical_rotational_velocity(surface_tension, orifice_radius, s0, rho):
+def critical_rotational_velocity_threshold(surface_tension, orifice_radius, s0, rho):
     """RJS
         
     :Input:
@@ -17,16 +17,33 @@ def critical_rotational_velocity(surface_tension, orifice_radius, s0, rho):
     - *rho* (float) - density (g/cm^3)
          
     :Returns:
-    (float) - Critical rotational speed for jet ejection (tours par seconde)
+    (float) - Critical rotational speed for jet ejection (rounds per second)
          
     """
     return sqrt(surface_tension/(orifice_radius**2*s0*rho))
-    
 
+def critical_rotational_velocity(rho, Rc, surface_tension, mu, orifice_radius):
+    """RJS
+        
+    :Input:
+    - *rho* (float) - density (g/cm^3)
+    - *Rc* (float) - radius of the collector (cm)
+    - *surface_tension* (float) - surface tension (g/s^2)
+    - *mu* (float) - viscosity (Pa.s)
+    - *orifice_radius* (float) - radius of the orifice (cm)
+    
+         
+    :Returns:
+    (float) - Minimum angular speed for fiber formation (rounds per second)
+         
+    """
+    return rho*(Rc*surface_tension)**2*mu**(-3)*10**3/(orifice_radius**2
+
+                                                       
 def sigma(surface_tension, x_position, r0, initial_velocity):
     """RJS
         
-    sigma=surface_tension * x_position / (r0 * initial_velocity)
+    sigma=surface_tension * x_position / (r0 * initial_velocity) * 10**(-3)
         
     :Input:
     - *surface_tension* (float) - surface tension (g/s^2)
@@ -35,13 +52,13 @@ def sigma(surface_tension, x_position, r0, initial_velocity):
     - *initial_velocity* (float) - initial axial velocity (m/s)
          
     :Returns:
-    (float) - sigma
+    (float) - sigma (in kg/(m.s))
          
     """
-    return surface_tension * x_position / (r0 * initial_velocity)
+    return surface_tension*x_position/(r0*initial_velocity)*10**(-3)
 
 
-def final_radius(r0, rho, initial_velocity, x_position, mu, Sigma, omega):
+def radius(r0, rho, initial_velocity, x_position, mu, Sigma, omega):
     """RJS
         
     :Input:
@@ -51,7 +68,7 @@ def final_radius(r0, rho, initial_velocity, x_position, mu, Sigma, omega):
     - *x_position* (float) - axial coordinate x (m)
     - *mu* (float) - viscosity (Pa.s)
     - *Sigma* (float) - call sigma function : sigma(surface_tension, x_position, r0, initial_velocity)
-    - *omega* (float) - angular velocity (Pa.s)
+    - *omega* (float) - angular velocity (rounds per second)
          
     :Returns:
     (float) - final radius (m)
